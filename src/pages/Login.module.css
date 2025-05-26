@@ -8,3 +8,10 @@
 .input-between-space {
   margin-bottom: 1rem;
 }
+
+.divider {
+  margin-top: 1rem;
+  background-color: #e2e8f0;
+  height: 1px;
+  border: 0;
+}
