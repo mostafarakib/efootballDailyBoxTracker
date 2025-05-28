@@ -1,0 +1,33 @@
+.calendar-container {
+  width: 50%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.react-calendar {
+  width: 100%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 0.5rem;
+}
+.react-calendar__month-view__weekdays__weekday > abbr {
+  @apply no-underline;
+}
+
+.react-calendar__month-view__days__day {
+  border: 1px solid #e2e8f0 !important;
+  height: 50px !important; /* Ensure enough space for indicators */
+  padding-bottom: 15px !important; /* Make room for our indicators */
+}
+@media (max-width: 992px) {
+  .calendar-container {
+    width: 75%;
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar-container {
+    width: 90%;
+  }
+}
