@@ -20,6 +20,11 @@
   height: 50px !important; /* Ensure enough space for indicators */
   padding-bottom: 15px !important; /* Make room for our indicators */
 }
+
+.dialog-content {
+  padding: 1rem;
+}
+
 @media (max-width: 992px) {
   .calendar-container {
     width: 75%;

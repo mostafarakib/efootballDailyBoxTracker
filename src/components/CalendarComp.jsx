@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DailyBoxDataForm,
 } from "./index"; // Update import path
 import { Check, X } from "lucide-react"; // For success/failure icons
 
@@ -59,15 +60,14 @@ function CalendarComp() {
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger className="hidden" /> {/* Hidden trigger */}
-        <DialogContent>
+        <DialogContent className="dialog-content">
           <DialogHeader>
             <DialogTitle>
               Penalty for {selectedDate?.toDateString()}
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            {/* Add your penalty input form here */}
-            <p>Record penalty for this date</p>
+            <DailyBoxDataForm />
           </div>
         </DialogContent>
       </Dialog>
