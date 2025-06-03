@@ -10,42 +10,51 @@ import {
   DialogTitle,
   DailyBoxDataForm,
 } from "./index"; // Update import path
-import { Check, X } from "lucide-react"; // For success/failure icons
+import { Check, X, SquareArrowOutUpRight } from "lucide-react"; // For success/failure icons
 
 function CalendarComp() {
   const [date, setDate] = useState(new Date());
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  // Mock data - replace with your actual data
-  const [penaltyData, setPenaltyData] = useState({
-    "2025-05-28": { position: "R", success: true },
-    "2025-05-27": { position: "L", success: false },
-    "2025-05-26": { position: "M", success: true },
-  });
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [dialogDate, setDialogDate] = useState(null);
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
-    setDialogOpen(true);
   };
 
-  const tileContent = ({ date, view }) => {
-    if (view === "month") {
-      const dateStr = date.toISOString().split("T")[0];
-      const data = penaltyData[dateStr];
+  const handleOpenDialog = (e, date) => {
+    e.stopPropagation(); // to prevent the calendar from changing the selected date
+    setDialogOpen(true);
 
-      if (penaltyData) {
-        return (
-          <div className="absolute bottom-0 left-0 right-0 flex justify-between px-1">
-            <span className="text-xs font-bold">{penaltyData.position}</span>
-            {penaltyData.success ? (
-              <Check className="h-3 w-3 text-green-500" />
-            ) : (
-              <X className="h-3 w-3 text-red-500" />
-            )}
+    // setDialogDate(date);
+
+    console.log("Opening dialog for date:", date);
+  };
+
+  const tileContent = ({ view }) => {
+    if (view === "month") {
+      return (
+        <div className="pointer-events-none">
+          {/* File icon - top right (clickable) */}
+          <div
+            className="pointer-events-auto cursor-pointer absolute top-1 right-1"
+            onClick={(e) => handleOpenDialog(e, date)}
+          >
+            <SquareArrowOutUpRight className="h-3 w-3 text-blue-500 hover:text-blue-700" />
           </div>
-        );
-      }
+
+          {/* Position indicator - bottom left (non-clickable) */}
+
+          <div className="absolute bottom-0.5 left-1">
+            <span className="text-xs font-bold">L</span>
+          </div>
+
+          {/* Success indicator - bottom right (non-clickable) */}
+          <div className="absolute bottom-0.5 right-1">
+            <Check className="h-3 w-3 text-green-500" />
+          </div>
+        </div>
+      );
     }
     return null;
   };
@@ -62,9 +71,7 @@ function CalendarComp() {
         <DialogTrigger className="hidden" /> {/* Hidden trigger */}
         <DialogContent className="dialog-content">
           <DialogHeader>
-            <DialogTitle>
-              Penalty for {selectedDate?.toDateString()}
-            </DialogTitle>
+            <DialogTitle>Penalty for {dialogDate?.toDateString()}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <DailyBoxDataForm />
@@ -72,7 +79,9 @@ function CalendarComp() {
         </DialogContent>
       </Dialog>
 
-      <div className="selected-date">Selected Date: {date.toDateString()}</div>
+      <div className="selected-date">
+        Selected Date: {selectedDate.toDateString()}
+      </div>
     </div>
   );
 }
