@@ -1,17 +1,16 @@
-import React, { forwardRef, useId } from "react";
+import React, { useId } from "react";
 import classes from "./RadioInput.module.css";
 
-function RadioInput(
-  {
-    label,
-    options = [],
-    name,
-    className = "",
-    orientation = "vertical", // "vertical" or "horizontal"
-    ...props
-  },
-  ref
-) {
+function RadioInput({
+  label,
+  options = [],
+  name,
+  value,
+  className = "",
+  orientation = "vertical", // "vertical" or "horizontal"
+  onChange,
+  ...props
+}) {
   const id = useId();
   const groupName = name || id;
 
@@ -37,7 +36,8 @@ function RadioInput(
                   id={optionId}
                   name={groupName}
                   value={option}
-                  ref={index === 0 ? ref : null}
+                  checked={value === option}
+                  onChange={onChange}
                   className={`h-4 w-4 not-even:text-blue-600 border-gray-300 ${classes["input-checkbox"]}`}
                   {...props}
                 />
@@ -56,4 +56,4 @@ function RadioInput(
   );
 }
 
-export default forwardRef(RadioInput);
+export default RadioInput;

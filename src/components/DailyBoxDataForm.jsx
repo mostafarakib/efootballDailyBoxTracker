@@ -19,10 +19,9 @@ function DailyBoxDataForm() {
       return;
     }
 
-    // Handle form submission logic here
     console.log("Form submitted", {
       selectedDirection,
-      goalScored: goalScored === "Yes",
+      goalScored,
     });
   };
 
