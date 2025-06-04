@@ -13,12 +13,13 @@ import {
 import { Check, X, SquareArrowOutUpRight } from "lucide-react"; // For success/failure icons
 
 function CalendarComp() {
-  const [date, setDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dialogDate, setDialogDate] = useState(null);
 
   const handleDateClick = (date) => {
+    console.log("Selected date:", date);
     setSelectedDate(date);
   };
 
@@ -26,12 +27,12 @@ function CalendarComp() {
     e.stopPropagation(); // to prevent the calendar from changing the selected date
     setDialogOpen(true);
 
-    // setDialogDate(date);
+    setDialogDate(date);
 
     console.log("Opening dialog for date:", date);
   };
 
-  const tileContent = ({ view }) => {
+  const tileContent = ({ view, date }) => {
     if (view === "month") {
       return (
         <div className="pointer-events-none">
@@ -63,7 +64,7 @@ function CalendarComp() {
     <div className="calendar-container">
       <Calendar
         onChange={handleDateClick}
-        value={date}
+        value={currentDate}
         tileContent={tileContent}
       />
 
