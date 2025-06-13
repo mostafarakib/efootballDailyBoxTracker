@@ -15,7 +15,7 @@ function Button({
     <button
       type={type}
       className={`
-        w-full border border-transparent rounded-md text-sm font-medium  focus:outline-none focus:ring-2 focus:ring-offset-2 ${bgColor} ${hoverColor} ${textColor} ${className} ${classes.button}`}
+        w-full border border-transparent rounded-md text-sm font-medium  focus:outline-none cursor-pointer ${bgColor} ${hoverColor} ${textColor} ${className} ${classes.button}`}
       {...props}
     >
       {children}
