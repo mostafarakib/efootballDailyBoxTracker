@@ -1,11 +1,21 @@
 import React from "react";
 import { Button, UserInfoDropdown } from "..";
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import authService from "@/appwrite/auth";
+import { logout } from "@/store/authSlice";
 
 function Header() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const authStatus = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.userData);
+
+  const handleLogout = async () => {
+    await authService.logout();
+    dispatch(logout());
+    navigate("/login");
+  };
 
   return (
     <nav className="bg-gray-900 shadow-lg !px-4 !sm:px-8">
@@ -34,7 +44,7 @@ function Header() {
                 <p className="text-center !mb-2 text-xl">
                   {user?.name.toUpperCase()}
                 </p>
-                <Button>Log out</Button>
+                <Button onClick={handleLogout}>Log out</Button>
               </div>
             </UserInfoDropdown>
           ) : (

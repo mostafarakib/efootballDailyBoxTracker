@@ -34,7 +34,10 @@ export class AuthService {
   }
 
   async login({ email, password }) {
-    await this.logout(); // Ensure any existing session is cleared
+    if (this.account) {
+      await this.logout();
+    }
+    // Ensure any existing session is cleared
     try {
       return await this.account.createEmailPasswordSession(email, password);
     } catch (error) {

@@ -29,7 +29,6 @@ export default function Login() {
     setError("");
 
     try {
-      console.log("Form Data:", formData);
       const { email, password } = formData;
 
       const session = await authService.login({ email, password });
