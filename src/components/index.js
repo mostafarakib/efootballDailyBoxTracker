@@ -13,6 +13,7 @@ import RadioInput from "./UI/RadioInput";
 import DailyBoxDataForm from "./DailyBoxDataForm";
 import AuthLayout from "./AuthLayout";
 import Loader from "./Loader";
+import UserInfoDropdown from "./UserInfoDropdown";
 
 export {
   Input,
@@ -28,4 +29,5 @@ export {
   DailyBoxDataForm,
   AuthLayout,
   Loader,
+  UserInfoDropdown,
 };

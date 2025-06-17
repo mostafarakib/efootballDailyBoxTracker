@@ -1,15 +1,17 @@
 import React from "react";
-import { Button } from "..";
+import { Button, UserInfoDropdown } from "..";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.userData);
+
   return (
-    <nav className="bg-gray-900 shadow-lg !px-8">
+    <nav className="bg-gray-900 shadow-lg !px-4 !sm:px-8">
       <div className="flex justify-between items-center h-16">
         {/* Left side  */}
-        <div className="flex items-center !space-x-6">
+        <div className="flex items-center !space-x-4 !sm:space-x-6">
           <NavLink to={"/"}>
             <div className="text-xl font-bold text-white">
               Efootball Tracker
@@ -25,9 +27,16 @@ function Header() {
         </div>
 
         {/* Right side */}
-        <div>
+        <div className="flex items-center !space-x-4">
           {authStatus ? (
-            <Button>Log out</Button>
+            <UserInfoDropdown user={user}>
+              <div className="!p-2">
+                <p className="text-center !mb-2 text-xl">
+                  {user?.name.toUpperCase()}
+                </p>
+                <Button>Log out</Button>
+              </div>
+            </UserInfoDropdown>
           ) : (
             <NavLink to={"/login"}>
               <Button>Login</Button>

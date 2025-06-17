@@ -2,13 +2,19 @@ import { useState } from "react";
 import { Mail, Lock } from "lucide-react";
 import { Button, Input } from "../components";
 import classes from "./Login.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import authService from "@/appwrite/auth";
+import { login } from "@/store/authSlice";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -18,15 +24,28 @@ export default function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Login attempt:", formData);
+    try {
+      console.log("Form Data:", formData);
+      const { email, password } = formData;
 
-      // Handle login logic here
-    }, 1000);
+      const session = await authService.login({ email, password });
+
+      if (session) {
+        const userData = await authService.getCurrentUser();
+
+        if (userData) {
+          dispatch(login(userData));
+          navigate("/");
+        }
+      }
+    } catch (error) {
+      setError(error.message || "Login failed. Something went wrong!");
+      console.log("Error during login:", error.message);
+    }
   };
 
   const handleForgotPassword = () => {
@@ -54,30 +73,35 @@ export default function Login() {
             </p>
           </div>
 
+          {/* Error */}
+          {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+
           {/* Form */}
           <div className={`${classes["form-container"]}`}>
             {/* Email Field */}
             <Input
               label="Email Address"
               placeholder="Enter your email"
+              name="email"
               type="email"
               required
               icon={Mail}
               className={`${classes["input-between-space"]}`}
-              //   value={formData.email}
-              //   onChange={handleInputChange}
+              value={formData.email}
+              onChange={handleInputChange}
             />
 
             {/* Password Field */}
             <Input
               label="Password"
               placeholder="Enter your password"
+              name="password"
               type="password"
               required
               icon={Lock}
               className={`${classes["input-between-space"]}`}
-              //   value={formData.password}
-              //   onChange={handleInputChange}
+              value={formData.password}
+              onChange={handleInputChange}
             />
 
             {/* Submit Button */}

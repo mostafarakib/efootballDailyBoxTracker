@@ -34,6 +34,7 @@ export class AuthService {
   }
 
   async login({ email, password }) {
+    await this.logout(); // Ensure any existing session is cleared
     try {
       return await this.account.createEmailPasswordSession(email, password);
     } catch (error) {
@@ -52,7 +53,7 @@ export class AuthService {
 
   async logout() {
     try {
-      return await this.account.deleteSession();
+      return await this.account.deleteSession("current");
     } catch (error) {
       console.log("appwrite:: Error logging out:", error);
     }
