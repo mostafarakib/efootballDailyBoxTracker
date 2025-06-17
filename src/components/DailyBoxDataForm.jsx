@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { RadioInput, Button } from "../components";
 
 import classes from "./DailyBoxDataForm.module.css";
-function DailyBoxDataForm() {
+import { useSelector } from "react-redux";
+import databaseService from "@/appwrite/service";
+function DailyBoxDataForm({ date }) {
   const [selectedDirection, setSelectedDirection] = useState("");
   const [goalScored, setGoalScored] = useState("");
 
-  const handleSubmit = (event) => {
+  const userData = useSelector((state) => state.auth.userData);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!selectedDirection) {
@@ -19,10 +23,32 @@ function DailyBoxDataForm() {
       return;
     }
 
-    console.log("Form submitted", {
-      selectedDirection,
-      goalScored,
-    });
+    // Format date as YYYY-MM-DD using local timezone (avoids UTC conversion issues)
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() is 0-indexed
+    const year = date.getFullYear();
+    const formattedDate = `${year}-${month}-${day}`;
+
+    try {
+      console.log("Form submitted", {
+        selectedDirection,
+        goalScored,
+      });
+      await databaseService.savePenaltyData(
+        userData.$id,
+        formattedDate,
+        goalScored === "Yes",
+        selectedDirection.toLowerCase()
+      );
+      alert("Data saved successfully!");
+      // Reset form after successful submission
+      setSelectedDirection("");
+      setGoalScored("");
+    } catch (error) {
+      console.error("Error saving data:", error);
+      alert("An error occurred while saving the data. Please try again.");
+      return;
+    }
   };
 
   return (

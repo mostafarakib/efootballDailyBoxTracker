@@ -75,7 +75,7 @@ function CalendarComp() {
             <DialogTitle>Penalty for {dialogDate?.toDateString()}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <DailyBoxDataForm />
+            <DailyBoxDataForm date={dialogDate} />
           </div>
         </DialogContent>
       </Dialog>
