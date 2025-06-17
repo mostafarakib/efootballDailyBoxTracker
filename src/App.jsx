@@ -10,10 +10,11 @@ import { Loader } from "./components";
 
 function App() {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const authStatus = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
+    setLoading(true);
     if (authStatus) {
       authService
         .getCurrentUser()
@@ -23,6 +24,9 @@ function App() {
           } else {
             dispatch(logout());
           }
+        })
+        .catch(() => {
+          dispatch(logout());
         })
         .finally(() => {
           setLoading(false);

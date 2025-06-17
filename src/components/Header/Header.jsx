@@ -2,8 +2,8 @@ import React from "react";
 import { Button, UserInfoDropdown } from "..";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import authService from "@/appwrite/auth";
-import { logout } from "@/store/authSlice";
+import authService from "../../appwrite/auth";
+import { logout } from "../../store/authSlice";
 
 function Header() {
   const navigate = useNavigate();
@@ -41,8 +41,8 @@ function Header() {
           {authStatus ? (
             <UserInfoDropdown user={user}>
               <div className="!p-2">
-                <p className="text-center !mb-2 text-xl">
-                  {user?.name.toUpperCase()}
+                <p className="text-center !mb-2 font-bold">
+                  {user?.name.toUpperCase() || "User"}
                 </p>
                 <Button onClick={handleLogout}>Log out</Button>
               </div>

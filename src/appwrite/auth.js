@@ -52,6 +52,7 @@ export class AuthService {
     } catch (error) {
       console.log("appwrite:: Error getting current user:", error);
     }
+    return null;
   }
 
   async logout() {

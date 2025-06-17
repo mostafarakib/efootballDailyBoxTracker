@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classes from "./Login.module.css";
 import { User, Mail, Lock } from "lucide-react";
-import { Button, Input } from "../components";
+import { Button, Input, Loader } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import authService from "@/appwrite/auth";
@@ -16,6 +16,7 @@ function Signup() {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData((prev) => ({
@@ -27,6 +28,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
       const account = await authService.createAccount(
@@ -45,8 +47,14 @@ function Signup() {
     } catch (error) {
       console.error("Appwrite :: Error creating account:", error.message);
       setError(error.message || "Something went wrong!");
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <div
       className={

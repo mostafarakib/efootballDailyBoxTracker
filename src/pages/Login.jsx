@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Mail, Lock } from "lucide-react";
-import { Button, Input } from "../components";
+import { Button, Input, Loader } from "../components";
 import classes from "./Login.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -15,6 +15,7 @@ export default function Login() {
     password: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +28,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
       const { email, password } = formData;
@@ -44,6 +46,8 @@ export default function Login() {
     } catch (error) {
       setError(error.message || "Login failed. Something went wrong!");
       console.log("Error during login:", error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,6 +55,10 @@ export default function Login() {
     console.log("Forgot password clicked");
     // Handle forgot password logic here
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div
