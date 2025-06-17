@@ -1,8 +1,10 @@
 import React from "react";
 import { Button } from "..";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Header() {
+  const authStatus = useSelector((state) => state.auth.isAuthenticated);
   return (
     <nav className="bg-gray-900 shadow-lg !px-8">
       <div className="flex justify-between items-center h-16">
@@ -24,9 +26,13 @@ function Header() {
 
         {/* Right side */}
         <div>
-          <NavLink to={"/login"}>
-            <Button>Login</Button>
-          </NavLink>
+          {authStatus ? (
+            <Button>Log out</Button>
+          ) : (
+            <NavLink to={"/login"}>
+              <Button>Login</Button>
+            </NavLink>
+          )}
         </div>
       </div>
     </nav>

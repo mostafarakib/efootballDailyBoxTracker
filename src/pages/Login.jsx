@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Mail, Lock } from "lucide-react";
 import { Button, Input } from "../components";
 import classes from "./Login.module.css";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -31,11 +32,6 @@ export default function Login() {
   const handleForgotPassword = () => {
     console.log("Forgot password clicked");
     // Handle forgot password logic here
-  };
-
-  const handleRegister = () => {
-    console.log("Register clicked");
-    // Handle register navigation here
   };
 
   return (
@@ -108,12 +104,11 @@ export default function Login() {
             <div className="text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{" "}
-                <button
-                  onClick={handleRegister}
-                  className="font-medium text-blue-600 hover:text-blue-500"
-                >
-                  Create one now
-                </button>
+                <Link to={"/signup"}>
+                  <button className="font-medium text-blue-600 hover:text-blue-500 cursor-pointer">
+                    Create one now
+                  </button>
+                </Link>
               </p>
             </div>
           </div>

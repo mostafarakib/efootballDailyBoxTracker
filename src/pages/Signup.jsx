@@ -1,17 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./Login.module.css";
 import { User, Mail, Lock } from "lucide-react";
 import { Button, Input } from "../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import authService from "@/appwrite/auth";
+import { login } from "@/store/authSlice";
 
 function Signup() {
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Signup attempt");
-      // Handle signup logic here
-    }, 1000);
+    setError("");
+
+    try {
+      const account = await authService.createAccount(
+        formData.email,
+        formData.password,
+        formData.name
+      );
+
+      if (account) {
+        const userData = await authService.getCurrentUser();
+        if (userData) {
+          dispatch(login(userData));
+          navigate("/");
+        }
+      }
+    } catch (error) {
+      console.error("Appwrite :: Error creating account:", error.message);
+      setError(error.message || "Something went wrong!");
+    }
   };
   return (
     <div
@@ -31,44 +65,54 @@ function Signup() {
             </p>
           </div>
 
+          {/* Error Message */}
+          {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+
           {/* Form */}
-          <div className={`${classes["form-container"]}`}>
+          <form
+            className={`${classes["form-container"]}`}
+            onSubmit={handleSubmit}
+          >
             {/* Name field  */}
             <Input
               label="Full Name"
               placeholder="Enter your full name"
+              name="name"
               type="text"
               required
               icon={User}
               className={`${classes["input-between-space"]}`}
+              value={formData.name}
+              onChange={handleInputChange}
             />
             {/* Email Field */}
             <Input
               label="Email Address"
               placeholder="Enter your email"
+              name="email"
               type="email"
               required
               icon={Mail}
               className={`${classes["input-between-space"]}`}
-              //   value={formData.email}
-              //   onChange={handleInputChange}
+              value={formData.email}
+              onChange={handleInputChange}
             />
 
             {/* Password Field */}
             <Input
               label="Password"
               placeholder="Enter your password"
+              name="password"
               type="password"
               required
               icon={Lock}
               className={`${classes["input-between-space"]}`}
-              //   value={formData.password}
-              //   onChange={handleInputChange}
+              value={formData.password}
+              onChange={handleInputChange}
             />
 
-            {/* Submit Button */}
-            <Button onClick={handleSubmit}>Sign Up</Button>
-          </div>
+            <Button type="submit">Sign Up</Button>
+          </form>
 
           {/* Footer Links */}
 
@@ -79,11 +123,13 @@ function Signup() {
           {/* Register Link */}
           <div className="text-center">
             <p className="text-sm text-gray-600">
-              Already an user? {/* <Link to={"/login"}> */}
-              <button className="font-medium text-blue-600 hover:text-blue-500">
+              Already an user?{" "}
+              <Link
+                to="/login"
+                className="font-medium text-blue-600 hover:text-blue-500 cursor-pointer"
+              >
                 Login here
-              </button>
-              {/* </Link> */}
+              </Link>
             </p>
           </div>
         </div>

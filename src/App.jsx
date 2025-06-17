@@ -1,12 +1,42 @@
 import "./App.css";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Home from "./pages/Home";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import authService from "./appwrite/auth";
+import { login, logout } from "./store/authSlice";
+import { Loader } from "./components";
 
 function App() {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const authStatus = useSelector((state) => state.auth.isAuthenticated);
+
+  useEffect(() => {
+    if (authStatus) {
+      authService
+        .getCurrentUser()
+        .then((userData) => {
+          if (userData) {
+            dispatch(login(userData));
+          } else {
+            dispatch(logout());
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      dispatch(logout());
+      setLoading(false);
+    }
+  }, [dispatch, authStatus]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <>
       <Header />
