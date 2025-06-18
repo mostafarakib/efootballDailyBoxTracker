@@ -8,11 +8,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./UI/Dialog.jsx";
+} from "./UI/dialog.jsx";
 import RadioInput from "./UI/RadioInput";
 import DailyBoxDataForm from "./DailyBoxDataForm";
 import AuthLayout from "./AuthLayout";
-import Loader from "./Loader";
+import Loader from "./UI/Loader";
 import UserInfoDropdown from "./UserInfoDropdown";
 import { Toaster } from "./UI/sonner";
 

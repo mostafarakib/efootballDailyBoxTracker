@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DailyBoxDataForm,
+  DialogDescription,
 } from "./index"; // Update import path
 import { Check, X, SquareArrowOutUpRight } from "lucide-react"; // For success/failure icons
 import { useSelector } from "react-redux";
@@ -76,7 +77,13 @@ function CalendarComp() {
             className="pointer-events-auto cursor-pointer absolute top-1 right-1"
             onClick={(e) => handleOpenDialog(e, date)}
           >
-            <SquareArrowOutUpRight className="h-3 w-3 text-blue-500 hover:text-blue-700" />
+            <SquareArrowOutUpRight
+              className={`h-3 w-3 ${
+                selectedDate.toDateString() === date.toDateString()
+                  ? "text-white"
+                  : "text-blue-500 hover:text-blue-700"
+              }`}
+            />
           </div>
 
           {penaltyData && (
@@ -117,6 +124,9 @@ function CalendarComp() {
         <DialogContent className="dialog-content">
           <DialogHeader>
             <DialogTitle>Penalty for {dialogDate?.toDateString()}</DialogTitle>
+            <DialogDescription className="sr-only">
+              Dialog for entering penalty data
+            </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <DailyBoxDataForm
