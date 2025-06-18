@@ -121,7 +121,9 @@ function CalendarComp() {
               {/* Position indicator - bottom left (non-clickable) */}
               <div className="absolute bottom-0 left-0.5">
                 <div className="flex flex-wrap items-center">
-                  {getShotDirectionIcon(isSelected)}
+                  <span className="hidden md:inline">
+                    {getShotDirectionIcon(isSelected)}
+                  </span>
                   <p className="text-xs font-bold !ms-0.5"> {shotDirection}</p>
                 </div>
               </div>
@@ -130,7 +132,7 @@ function CalendarComp() {
                 <div className="absolute top-0.5 left-0.5">
                   <div className="flex flex-wrap items-center">
                     <Hand
-                      className={`h-3 w-3 ${
+                      className={`h-3 w-3 hidden md:inline ${
                         selectedDate.toDateString() === date.toDateString()
                           ? "text-white"
                           : "text-black"
@@ -191,7 +193,7 @@ function CalendarComp() {
 
       <div className="!mt-2 !px-4 !space-y-3">
         {/* Legend */}
-        <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-gray-700">
+        <div className="flex flex-wrap justify-center items-center gap-3 md:gap-4 text-sm text-gray-700">
           <div className="flex items-center gap-1">
             <Check className="h-4 w-4 text-green-500" />
             <span>Scored</span>
@@ -205,14 +207,6 @@ function CalendarComp() {
             <span>Open / Edit</span>
           </div>
           <div className="flex items-center gap-1">
-            <Hand className="h-4 w-4 text-black" />
-            <span>Goalkeeper Jump Direction</span>
-          </div>
-          <div className="flex items-center gap-1">
-            {getShotDirectionIcon(false)}
-            <span>Shot Direction</span>
-          </div>
-          <div className="flex items-center gap-1">
             <span className="font-bold">L</span> <span>Left</span>
           </div>
           <div className="flex items-center gap-1">
@@ -220,6 +214,20 @@ function CalendarComp() {
           </div>
           <div className="flex items-center gap-1">
             <span className="font-bold">C</span> <span>Center</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Hand className="h-4 w-4 text-black hidden md:inline" />
+            <span className="font-semibold md:hidden">Top Left Corner: </span>
+            <span>Goalkeeper Jump Direction</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="hidden md:inline">
+              {getShotDirectionIcon(false)}
+            </span>
+            <span className="font-semibold md:hidden">
+              Bottom Left Corner:{" "}
+            </span>
+            <span>Shot Direction</span>
           </div>
         </div>
 
