@@ -4,11 +4,12 @@
     rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   border-radius: 5px;
   overflow: hidden;
+  padding: 1rem;
+  margin: 3rem auto;
 }
 .react-calendar {
   width: 100%;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-radius: 5px;
   padding: 0.5rem;
 }
 .react-calendar__month-view__weekdays__weekday > abbr {
@@ -22,7 +23,7 @@
 }
 
 .dialog-content {
-  padding: 1rem;
+  padding: 2rem 1.5rem;
 }
 
 .open-dialog-icon {

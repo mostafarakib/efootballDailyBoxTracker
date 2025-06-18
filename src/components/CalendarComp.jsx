@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DailyBoxDataForm,
   DialogDescription,
+  DialogClose,
 } from "./index"; // Update import path
 import { Check, X, SquareArrowOutUpRight } from "lucide-react"; // For success/failure icons
 import { useSelector } from "react-redux";
@@ -111,6 +112,9 @@ function CalendarComp() {
 
   return (
     <div className="calendar-container">
+      <h2 className="font-bold text-2xl text-center !mb-4">
+        Your Efootball Daily Game Box Records
+      </h2>
       <Calendar
         onChange={(date) => {
           setCurrentDate(date);
@@ -138,8 +142,61 @@ function CalendarComp() {
         </DialogContent>
       </Dialog>
 
-      <div className="selected-date">
-        Selected Date: {selectedDate.toDateString()}
+      <div className="!mt-2 !px-4 !space-y-3">
+        {/* Legend */}
+        <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-gray-700">
+          <div className="flex items-center gap-1">
+            <Check className="h-4 w-4 text-green-500" />
+            <span>Scored</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <X className="h-4 w-4 text-red-500" />
+            <span>Missed</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <SquareArrowOutUpRight className="h-4 w-4 text-blue-500" />
+            <span>Open / Edit</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="font-bold">L</span> <span>Left</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="font-bold">R</span> <span>Right</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="font-bold">C</span> <span>Center</span>
+          </div>
+        </div>
+
+        {/* Selected Date and Data */}
+        <div className="!p-4 rounded-md border border-gray-300 bg-gray-50 shadow-sm">
+          <p className="text-sm font-semibold text-gray-800">
+            Selected Date: {selectedDate.toDateString()}
+          </p>
+
+          {penaltyDataMap[selectedDate.toDateString()] ? (
+            <div className="mt-2 text-sm text-gray-700 space-y-1">
+              <p>
+                <span className="font-medium">Direction:</span>{" "}
+                {penaltyDataMap[selectedDate.toDateString()].direction}
+              </p>
+              <p>
+                <span className="font-medium">Scored:</span>{" "}
+                {penaltyDataMap[selectedDate.toDateString()].scored
+                  ? "Yes ✅"
+                  : "No ❌"}
+              </p>
+              <p>
+                <span className="font-medium">Notes:</span>{" "}
+                {penaltyDataMap[selectedDate.toDateString()].notes || "N/A"}
+              </p>
+            </div>
+          ) : (
+            <p className="mt-2 text-sm text-gray-500">
+              No penalty data for this date.
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

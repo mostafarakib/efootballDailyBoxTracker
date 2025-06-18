@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "./UI/dialog.jsx";
 import RadioInput from "./UI/RadioInput";
 import DailyBoxDataForm from "./DailyBoxDataForm";
@@ -26,6 +27,7 @@ export {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
   RadioInput,
   DailyBoxDataForm,
   AuthLayout,
