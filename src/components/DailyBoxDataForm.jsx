@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 import databaseService from "../appwrite/service";
 import { toast } from "sonner";
 function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
-  const [selectedDirection, setSelectedDirection] = useState("");
+  const [selectedShotDirection, setSelectedShotDirection] = useState("");
+  const [selectedGkDirection, setSelectedGkDirection] = useState("");
   const [goalScored, setGoalScored] = useState("");
 
   const userData = useSelector((state) => state.auth.userData);
@@ -14,7 +15,11 @@ function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!selectedDirection) {
+    if (!selectedShotDirection) {
+      toast("Please select a direction");
+      return;
+    }
+    if (!selectedGkDirection) {
       toast("Please select a direction");
       return;
     }
@@ -35,7 +40,8 @@ function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
         userData.$id,
         formattedDate,
         goalScored === "Yes",
-        selectedDirection.toLowerCase()
+        selectedShotDirection.toLowerCase(),
+        selectedGkDirection.toLowerCase()
       );
 
       if (result.noChanges) {
@@ -44,7 +50,8 @@ function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
         toast("Data saved successfully!");
 
         // Reset form after successful submission
-        setSelectedDirection("");
+        setSelectedShotDirection("");
+        setSelectedGkDirection("");
         setGoalScored("");
         setDialogOpen(false);
         refreshPenaltyData();
@@ -63,10 +70,19 @@ function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
         onSubmit={handleSubmit}
       >
         <RadioInput
-          label="Select Direction"
-          name="direction"
-          value={selectedDirection}
-          onChange={(e) => setSelectedDirection(e.target.value)}
+          label="Select Shot Direction"
+          name="shotDirection"
+          value={selectedShotDirection}
+          onChange={(e) => setSelectedShotDirection(e.target.value)}
+          options={["Left", "Center", "Right"]}
+          className={`${classes["input-bottom-space"]}`}
+        />
+
+        <RadioInput
+          label="Select Goalkeeper Direction"
+          name="gkDirection"
+          value={selectedGkDirection}
+          onChange={(e) => setSelectedGkDirection(e.target.value)}
           options={["Left", "Center", "Right"]}
           className={`${classes["input-bottom-space"]}`}
         />

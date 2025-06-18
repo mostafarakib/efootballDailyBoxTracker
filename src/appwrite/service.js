@@ -13,7 +13,14 @@ export class DataBaseService {
     this.databases = new Databases(this.client);
   }
 
-  async savePenaltyData(userId, date, scored, direction, notes = "") {
+  async savePenaltyData(
+    userId,
+    date,
+    scored,
+    shotDirection,
+    gkDirection,
+    notes = ""
+  ) {
     try {
       const existingData = await this.getPenaltyDataByDate(userId, date);
 
@@ -30,14 +37,16 @@ export class DataBaseService {
 
       // to match the expected format in the database
       const normalizedScored = Boolean(scored);
-      const normalizedDirection = direction.toLowerCase();
+      const normalizedShotDirection = shotDirection?.toLowerCase();
+      const normalizedGkDirection = gkDirection?.toLowerCase();
 
       // If data already exists, check if update is needed
       if (existingData) {
         // Check if any of the fields have changed
         const hasChanged =
           existingData.scored !== normalizedScored ||
-          existingData.direction !== normalizedDirection ||
+          existingData.shotDirection !== normalizedShotDirection ||
+          existingData.gkDirection !== normalizedGkDirection ||
           existingData.notes !== notes;
 
         // If no changes, return existing data without DB operation
@@ -50,7 +59,8 @@ export class DataBaseService {
           userId,
           date,
           scored: Boolean(scored), // Ensure scored is a boolean
-          direction: direction.toLowerCase(), // Convert direction to lowercase
+          shotDirection: normalizedShotDirection,
+          gkDirection: normalizedGkDirection,
           notes,
           updatedAt: formatTimestamp(new Date()),
         };
@@ -70,7 +80,8 @@ export class DataBaseService {
           userId,
           date,
           scored: normalizedScored,
-          direction: normalizedDirection,
+          shotDirection: normalizedShotDirection,
+          gkDirection: normalizedGkDirection,
           notes,
           updatedAt: formatTimestamp(new Date()),
         };
