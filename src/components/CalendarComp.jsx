@@ -10,13 +10,7 @@ import {
   DailyBoxDataForm,
   DialogDescription,
 } from "./index";
-import {
-  Check,
-  X,
-  SquareArrowOutUpRight,
-  Hand,
-  Volleyball,
-} from "lucide-react"; // For success/failure icons
+import { Check, X, SquareArrowOutUpRight, Hand } from "lucide-react";
 import { useSelector } from "react-redux";
 import databaseService from "../appwrite/service";
 
@@ -149,20 +143,11 @@ function CalendarComp() {
 
               {/* Success indicator - bottom right (non-clickable) */}
               <div className="absolute bottom-0.5 right-0.5">
-                <div className="flex flex-wrap items-center">
-                  <Volleyball
-                    className={`h-2.5 w-2.5 !me-0.5 ${
-                      selectedDate.toDateString() === date.toDateString()
-                        ? "text-white"
-                        : "text-black"
-                    }`}
-                  />
-                  {penaltyData.scored ? (
-                    <Check className="h-3 w-3 text-green-500" />
-                  ) : (
-                    <X className="h-3 w-3 text-red-500" />
-                  )}
-                </div>
+                {penaltyData.scored ? (
+                  <Check className="h-3 w-3 text-green-500" />
+                ) : (
+                  <X className="h-3 w-3 text-red-500" />
+                )}
               </div>
             </>
           )}
@@ -226,10 +211,6 @@ function CalendarComp() {
           <div className="flex items-center gap-1">
             {getShotDirectionIcon(false)}
             <span>Shot Direction</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Volleyball className="h-4 w-4 text-black" />
-            <span>Scored</span>
           </div>
           <div className="flex items-center gap-1">
             <span className="font-bold">L</span> <span>Left</span>
