@@ -48,7 +48,7 @@ export class DataBaseService {
       }
       // if no data exists, create a new document
       else {
-        penaltyData.createdAt = new Date().toISOString();
+        penaltyData.updatedAt = formatTimestamp(new Date());
 
         return await this.databases.createDocument(
           config.appwriteDatabaseId,
