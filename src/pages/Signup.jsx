@@ -4,8 +4,8 @@ import { User, Mail, Lock } from "lucide-react";
 import { Button, Input, Loader } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import authService from "@/appwrite/auth";
-import { login } from "@/store/authSlice";
+import authService from "../appwrite/auth";
+import { login } from "../store/authSlice";
 
 function Signup() {
   const navigate = useNavigate();

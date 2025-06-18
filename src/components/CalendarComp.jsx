@@ -13,7 +13,7 @@ import {
 } from "./index"; // Update import path
 import { Check, X, SquareArrowOutUpRight } from "lucide-react"; // For success/failure icons
 import { useSelector } from "react-redux";
-import databaseService from "@/appwrite/service";
+import databaseService from "../appwrite/service";
 
 function CalendarComp() {
   const [currentDate, setCurrentDate] = useState(new Date());
