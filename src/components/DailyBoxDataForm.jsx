@@ -3,7 +3,8 @@ import { RadioInput, Button } from "../components";
 
 import classes from "./DailyBoxDataForm.module.css";
 import { useSelector } from "react-redux";
-import databaseService from "@/appwrite/service";
+import databaseService from "../appwrite/service";
+import { toast } from "sonner";
 function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
   const [selectedDirection, setSelectedDirection] = useState("");
   const [goalScored, setGoalScored] = useState("");
@@ -14,12 +15,12 @@ function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
     event.preventDefault();
 
     if (!selectedDirection) {
-      alert("Please select a direction");
+      toast("Please select a direction");
       return;
     }
 
     if (!goalScored) {
-      alert("Please select if goal was scored");
+      toast("Please select if goal was scored");
       return;
     }
 
@@ -30,21 +31,27 @@ function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
     const formattedDate = `${year}-${month}-${day}`;
 
     try {
-      await databaseService.savePenaltyData(
+      const result = await databaseService.savePenaltyData(
         userData.$id,
         formattedDate,
         goalScored === "Yes",
         selectedDirection.toLowerCase()
       );
-      alert("Data saved successfully!");
-      // Reset form after successful submission
-      setSelectedDirection("");
-      setGoalScored("");
-      setDialogOpen(false);
-      refreshPenaltyData();
+
+      if (result.noChanges) {
+        toast("No changes detected. Data not updated.");
+      } else {
+        toast("Data saved successfully!");
+
+        // Reset form after successful submission
+        setSelectedDirection("");
+        setGoalScored("");
+        setDialogOpen(false);
+        refreshPenaltyData();
+      }
     } catch (error) {
-      console.error("Error saving data:", error);
-      alert("An error occurred while saving the data. Please try again.");
+      console.log("Error saving data:", error);
+      toast("An error occurred while saving the data. Please try again.");
       return;
     }
   };

@@ -28,34 +28,61 @@ export class DataBaseService {
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
       };
 
-      const penaltyData = {
-        userId,
-        date,
-        scored: Boolean(scored), // Ensure scored is a boolean
-        direction: direction.toLowerCase(), // Convert direction to lowercase
-        notes,
-        updatedAt: formatTimestamp(new Date()),
-      };
+      // to match the expected format in the database
+      const normalizedScored = Boolean(scored);
+      const normalizedDirection = direction.toLowerCase();
 
-      //if data already exists for the user and date, update it
+      // If data already exists, check if update is needed
       if (existingData) {
-        return await this.databases.updateDocument(
+        // Check if any of the fields have changed
+        const hasChanged =
+          existingData.scored !== normalizedScored ||
+          existingData.direction !== normalizedDirection ||
+          existingData.notes !== notes;
+
+        // If no changes, return existing data without DB operation
+        if (!hasChanged) {
+          return { data: existingData, noChanges: true };
+        }
+
+        // Only update if data has changed
+        const penaltyData = {
+          userId,
+          date,
+          scored: Boolean(scored), // Ensure scored is a boolean
+          direction: direction.toLowerCase(), // Convert direction to lowercase
+          notes,
+          updatedAt: formatTimestamp(new Date()),
+        };
+
+        const result = await this.databases.updateDocument(
           config.appwriteDatabaseId,
           config.appwriteCollectionId,
           existingData.$id,
           penaltyData
         );
+
+        return { data: result, noChanges: false };
       }
       // if no data exists, create a new document
       else {
-        penaltyData.updatedAt = formatTimestamp(new Date());
+        const penaltyData = {
+          userId,
+          date,
+          scored: normalizedScored,
+          direction: normalizedDirection,
+          notes,
+          updatedAt: formatTimestamp(new Date()),
+        };
 
-        return await this.databases.createDocument(
+        const result = await this.databases.createDocument(
           config.appwriteDatabaseId,
           config.appwriteCollectionId,
           ID.unique(),
           penaltyData
         );
+
+        return { data: result, noChanges: false };
       }
     } catch (error) {
       console.log("appwrite:: Error saving penalty data:", error);

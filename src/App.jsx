@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import authService from "./appwrite/auth";
 import { login, logout } from "./store/authSlice";
-import { Loader } from "./components";
+import { Loader, Toaster } from "./components";
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +43,7 @@ function App() {
 
   return (
     <>
+      <Toaster position="top-center" />
       <Header />
 
       <main>

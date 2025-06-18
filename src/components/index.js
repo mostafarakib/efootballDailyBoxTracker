@@ -14,6 +14,7 @@ import DailyBoxDataForm from "./DailyBoxDataForm";
 import AuthLayout from "./AuthLayout";
 import Loader from "./Loader";
 import UserInfoDropdown from "./UserInfoDropdown";
+import { Toaster } from "./UI/sonner";
 
 export {
   Input,
@@ -30,4 +31,5 @@ export {
   AuthLayout,
   Loader,
   UserInfoDropdown,
+  Toaster,
 };
