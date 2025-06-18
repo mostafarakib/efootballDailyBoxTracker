@@ -83,7 +83,7 @@ export class DataBaseService {
     try {
       const response = await this.databases.listDocuments(
         config.appwriteDatabaseId,
-        config.appwritePenaltyCollectionId,
+        config.appwriteCollectionId,
         [
           Query.equal("userId", userId),
           Query.orderDesc("date"),

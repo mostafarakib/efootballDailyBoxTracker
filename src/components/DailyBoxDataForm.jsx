@@ -4,7 +4,7 @@ import { RadioInput, Button } from "../components";
 import classes from "./DailyBoxDataForm.module.css";
 import { useSelector } from "react-redux";
 import databaseService from "@/appwrite/service";
-function DailyBoxDataForm({ date }) {
+function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
   const [selectedDirection, setSelectedDirection] = useState("");
   const [goalScored, setGoalScored] = useState("");
 
@@ -30,10 +30,6 @@ function DailyBoxDataForm({ date }) {
     const formattedDate = `${year}-${month}-${day}`;
 
     try {
-      console.log("Form submitted", {
-        selectedDirection,
-        goalScored,
-      });
       await databaseService.savePenaltyData(
         userData.$id,
         formattedDate,
@@ -44,6 +40,8 @@ function DailyBoxDataForm({ date }) {
       // Reset form after successful submission
       setSelectedDirection("");
       setGoalScored("");
+      setDialogOpen(false);
+      refreshPenaltyData();
     } catch (error) {
       console.error("Error saving data:", error);
       alert("An error occurred while saving the data. Please try again.");
