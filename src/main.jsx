@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { AuthLayout } from "./components";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
             <Signup />
           </AuthLayout>
         ),
+      },
+      // Catch-all route for 404 Not Found
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

@@ -119,7 +119,7 @@ function CalendarComp() {
           {penaltyData && (
             <>
               {/* Position indicator - bottom left (non-clickable) */}
-              <div className="absolute bottom-0 left-0.5">
+              <div className="absolute top-0.5 left-0.5 ">
                 <div className="flex flex-wrap items-center">
                   <span className="hidden md:inline">
                     {getShotDirectionIcon(isSelected)}
@@ -129,7 +129,7 @@ function CalendarComp() {
               </div>
 
               {gkDirection && (
-                <div className="absolute top-0.5 left-0.5">
+                <div className="absolute bottom-0 left-0.5">
                   <div className="flex flex-wrap items-center">
                     <Hand
                       className={`h-3 w-3 hidden md:inline ${
@@ -216,11 +216,6 @@ function CalendarComp() {
             <span className="font-bold">C</span> <span>Center</span>
           </div>
           <div className="flex items-center gap-1">
-            <Hand className="h-4 w-4 text-black hidden md:inline" />
-            <span className="font-semibold md:hidden">Top Left Corner: </span>
-            <span>Goalkeeper Jump Direction</span>
-          </div>
-          <div className="flex items-center gap-1">
             <span className="hidden md:inline">
               {getShotDirectionIcon(false)}
             </span>
@@ -228,6 +223,11 @@ function CalendarComp() {
               Bottom Left Corner:{" "}
             </span>
             <span>Shot Direction</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Hand className="h-4 w-4 text-black hidden md:inline" />
+            <span className="font-semibold md:hidden">Top Left Corner: </span>
+            <span>Goalkeeper Jump Direction</span>
           </div>
         </div>
 

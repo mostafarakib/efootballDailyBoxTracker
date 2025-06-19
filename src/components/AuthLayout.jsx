@@ -9,9 +9,9 @@ function AuthLayout({ children, authentication = true }) {
   const authStatus = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    if (authentication && authStatus !== authentication) {
+    if (authentication && !authStatus) {
       navigate("/login", { replace: true });
-    } else if (!authentication && authStatus !== authentication) {
+    } else if (!authentication && authStatus) {
       navigate("/", { replace: true });
     }
     setLoading(false);
