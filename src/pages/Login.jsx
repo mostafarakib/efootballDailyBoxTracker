@@ -63,7 +63,7 @@ export default function Login() {
   return (
     <div
       className={
-        "min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+        "min-h-dvh bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center py-16 md:py-22 px-4 sm:px-6 lg:px-8"
       }
     >
       <div className="max-w-md w-full">
@@ -84,8 +84,10 @@ export default function Login() {
           {error && <p className="text-red-600 text-center mb-4">{error}</p>}
 
           {/* Form */}
-          <div className={`${classes["form-container"]}`}>
-            {/* Email Field */}
+          <form
+            onSubmit={handleSubmit}
+            className={`${classes["form-container"]}`}
+          >
             <Input
               label="Email Address"
               placeholder="Enter your email"
@@ -97,8 +99,6 @@ export default function Login() {
               value={formData.email}
               onChange={handleInputChange}
             />
-
-            {/* Password Field */}
             <Input
               label="Password"
               placeholder="Enter your password"
@@ -110,10 +110,10 @@ export default function Login() {
               value={formData.password}
               onChange={handleInputChange}
             />
-
-            {/* Submit Button */}
-            <Button onClick={handleSubmit}>Sign In</Button>
-          </div>
+            <Button className="w-full" type="submit">
+              Sign In
+            </Button>
+          </form>
 
           {/* Footer Links */}
           <div className="mt-6">

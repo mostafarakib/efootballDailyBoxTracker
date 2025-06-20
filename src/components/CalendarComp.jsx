@@ -124,7 +124,7 @@ function CalendarComp() {
                   <span className="hidden md:inline">
                     {getShotDirectionIcon(isSelected)}
                   </span>
-                  <p className="text-xs font-bold !ms-0.5"> {shotDirection}</p>
+                  <p className="text-xs font-bold ms-0.5"> {shotDirection}</p>
                 </div>
               </div>
 
@@ -138,7 +138,7 @@ function CalendarComp() {
                           : "text-black"
                       }`}
                     />
-                    <p className="text-xs font-bold !ms-0.5"> {gkDirection}</p>
+                    <p className="text-xs font-bold ms-0.5"> {gkDirection}</p>
                   </div>
                 </div>
               )}
@@ -161,7 +161,7 @@ function CalendarComp() {
 
   return (
     <div className="calendar-container">
-      <h2 className="font-bold text-2xl text-center !mb-4">
+      <h2 className="font-bold text-2xl text-center mb-5">
         Your Efootball Daily Game Box Records
       </h2>
       <Calendar
@@ -191,7 +191,7 @@ function CalendarComp() {
         </DialogContent>
       </Dialog>
 
-      <div className="!mt-2 !px-4 !space-y-3">
+      <div className="mt-2 px-4 space-y-3">
         {/* Legend */}
         <div className="flex flex-wrap justify-center items-center gap-3 md:gap-4 text-sm text-gray-700">
           <div className="flex items-center gap-1">
@@ -232,7 +232,7 @@ function CalendarComp() {
         </div>
 
         {/* Selected Date and Data */}
-        <div className="!p-4 rounded-md border border-gray-300 bg-gray-50 shadow-sm">
+        <div className="p-4 rounded-md border border-gray-300 bg-gray-50 shadow-sm">
           <p className="text-sm font-semibold text-gray-800">
             Selected Date: {selectedDate.toDateString()}
           </p>

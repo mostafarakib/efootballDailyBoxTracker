@@ -6,11 +6,13 @@ import { Provider } from "react-redux";
 import store from "./store/store.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Home from "./pages/Home";
+import Home from "./pages/LandingPage/LandingPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { AuthLayout } from "./components";
 import NotFound from "./pages/NotFound";
+import GameBoxTrackingCalendar from "./pages/GameBoxTrackingCalendar";
+import LandingPage from "./pages/LandingPage/LandingPage";
 
 const router = createBrowserRouter([
   {
@@ -19,27 +21,23 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <LandingPage />,
+      },
+      {
+        path: "/gameBoxTracker",
         element: (
           <AuthLayout authentication>
-            <Home />
+            <GameBoxTrackingCalendar />
           </AuthLayout>
         ),
       },
       {
         path: "/login",
-        element: (
-          <AuthLayout authentication={false}>
-            <Login />
-          </AuthLayout>
-        ),
+        element: <Login />,
       },
       {
         path: "/signup",
-        element: (
-          <AuthLayout authentication={false}>
-            <Signup />
-          </AuthLayout>
-        ),
+        element: <Signup />,
       },
       // Catch-all route for 404 Not Found
       {
