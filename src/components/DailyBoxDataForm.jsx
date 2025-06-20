@@ -66,7 +66,7 @@ function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
   return (
     <div className={`flex justify-center items-center`}>
       <form
-        className={`border border-gray-300 rounded-lg space-y-6 max-w-lg w-full ${classes["form-container"]}`}
+        className={`border border-gray-300 rounded-lg space-y-4 max-w-lg w-full ${classes["form-container"]}`}
         onSubmit={handleSubmit}
       >
         <RadioInput
@@ -75,7 +75,6 @@ function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
           value={selectedShotDirection}
           onChange={(e) => setSelectedShotDirection(e.target.value)}
           options={["Left", "Center", "Right"]}
-          className={`${classes["input-bottom-space"]}`}
         />
 
         <RadioInput
@@ -84,7 +83,6 @@ function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
           value={selectedGkDirection}
           onChange={(e) => setSelectedGkDirection(e.target.value)}
           options={["Left", "Center", "Right"]}
-          className={`${classes["input-bottom-space"]}`}
         />
 
         <RadioInput
@@ -94,7 +92,6 @@ function DailyBoxDataForm({ date, refreshPenaltyData, setDialogOpen }) {
           onChange={(e) => setGoalScored(e.target.value)}
           options={["Yes", "No"]}
           orientation="horizontal"
-          className={`${classes["input-bottom-space"]}`}
         />
 
         <Button type="submit" className="w-full">
