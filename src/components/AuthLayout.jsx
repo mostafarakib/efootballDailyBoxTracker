@@ -5,19 +5,25 @@ import { Loader } from ".";
 
 function AuthLayout({ children, authentication = true }) {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const [authCheckComplete, setAuthCheckComplete] = useState(false);
   const authStatus = useSelector((state) => state.auth.isAuthenticated);
+  const loading = useSelector((state) => state.auth.loading);
 
   useEffect(() => {
-    if (authentication && !authStatus) {
-      navigate("/login", { replace: true });
-    } else if (!authentication && authStatus) {
-      navigate("/", { replace: true });
+    if (!loading) {
+      if (authentication && !authStatus) {
+        navigate("/login", { replace: true });
+        return;
+      } else if (!authentication && authStatus) {
+        navigate("/", { replace: true });
+        return;
+      } else {
+        setAuthCheckComplete(true);
+      }
     }
-    setLoading(false);
-  }, [authStatus, navigate, authentication]);
+  }, [authStatus, navigate, authentication, loading]);
 
-  if (loading) {
+  if (loading || !authCheckComplete) {
     return <Loader />;
   }
   return <>{children}</>;
