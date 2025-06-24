@@ -328,7 +328,20 @@ function CalendarComp() {
 
       <div className="mt-2 px-4 space-y-3">
         {/* Legend */}
-        <div className="flex flex-wrap justify-center items-center gap-3 md:gap-4 text-sm text-gray-700">
+        <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 text-sm text-gray-700">
+          <div className="flex items-center gap-1">
+            <span className="block h-3 w-3 bg-green-400"></span>
+            <span>Scored</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="block h-3 w-3 bg-red-500"></span>
+            <span>Not Scored</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="block h-3 w-3 bg-blue-500"></span>
+            <span>Selected Date</span>
+          </div>
+
           <div className="flex items-center gap-1">
             <SquareArrowOutUpRight className="h-4 w-4 text-blue-500" />
             <span>Edit or Add Entry</span>
