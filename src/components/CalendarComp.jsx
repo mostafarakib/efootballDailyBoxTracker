@@ -67,24 +67,18 @@ function CalendarComp() {
 
     return (
       <svg
-        width="15px"
-        height="15px"
-        viewBox="0 0 512 512"
+        className="svg-icon align-middle overflow-hidden"
+        height="16px"
+        width="16px"
+        viewBox="0 0 1024 1024"
+        version="1.1"
         xmlns="http://www.w3.org/2000/svg"
         fill={fillColor}
       >
-        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-        <g
-          id="SVGRepo_tracerCarrier"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></g>
-        <g id="SVGRepo_iconCarrier">
-          <path
-            fill={fillColor}
-            d="M290.2 49.04c-15.7.1-32.3 13.83-38 35.81-6.5 25.15 4.7 47.85 22.1 52.35 17.4 4.5 38.2-9.9 44.7-35 6.5-25.16-4.6-47.82-22.1-52.33-2.2-.56-4.4-.84-6.7-.83zM89.04 68.3L77.5 87.31c32.4 15.99 63.1 33.49 96.4 46.49 9.5-3.8 18.8-7.8 28-12-40.2-15.4-76.7-33.69-112.86-53.5zm148.06 56.1c-47.8 25.4-97.9 41.6-153.64 61.1l8.08 16.4c51.96-16.1 111.26-32.9 161.16-56-6.9-5.5-12.1-12.9-15.6-21.5zm30.3 34.8c-22.5 10.8-46.8 20.2-71.4 28.7-20.3 45.6-27.7 94.9-36.8 140.1l-2.1 10.5-101.02-39.4-16.03 25.4 130.25 60.7c1-1.4 1.7-2.5 2.9-4.5 3.9-6.7 9.2-16.6 15.2-28.6 11.9-23.8 26.7-55.9 40.4-88.1 13.8-32.1 26.4-64.4 33.9-88.4 1.9-6.1 3.5-11.6 4.7-16.4zm-31.9 134.6c-5.5 12.5-11.1 24.8-16.5 36.3 25 37.4 57 79 94.9 109.2l23.3-17.6c-35.8-39.7-72.9-84.3-101.7-127.9zM423.9 367a48 48 0 0 0-48 48 48 48 0 0 0 48 48 48 48 0 0 0 48-48 48 48 0 0 0-48-48z"
-          ></path>
-        </g>
+        <path
+          d="M850.688 554.666667A341.504 341.504 0 0 1 554.666667 850.688V938.666667h-85.333334v-87.978667A341.504 341.504 0 0 1 173.312 554.666667H85.333333v-85.333334h87.978667A341.504 341.504 0 0 1 469.333333 173.312V85.333333h85.333334v87.978667A341.504 341.504 0 0 1 850.688 469.333333H938.666667v85.333334h-87.978667zM512 768a256 256 0 1 0 0-512 256 256 0 0 0 0 512z m0-128a128 128 0 1 0 0-256 128 128 0 0 0 0 256z"
+          fill={fillColor}
+        />
       </svg>
     );
   };
@@ -98,7 +92,7 @@ function CalendarComp() {
       fillColor = "white";
     }
 
-    if (penaltyData?.shotDirection === "left") {
+    if (penaltyData?.gkDirection === "left") {
       return (
         <svg
           fill={fillColor}
@@ -132,7 +126,7 @@ function CalendarComp() {
         </svg>
       );
     }
-    if (penaltyData?.shotDirection === "center") {
+    if (penaltyData?.gkDirection === "center") {
       return (
         <svg
           width="15px"
@@ -157,7 +151,7 @@ function CalendarComp() {
         </svg>
       );
     }
-    if (penaltyData?.shotDirection === "right") {
+    if (penaltyData?.gkDirection === "right") {
       return (
         <svg
           fill={fillColor}
@@ -203,15 +197,28 @@ function CalendarComp() {
       const isSelected = selectedDate.toDateString() === date.toDateString();
 
       if (isSelected) {
-        return "!bg-gradient-to-br !from-blue-400 !to-blue-600 text-white";
+        return "!bg-gradient-to-br !from-blue-400 !to-blue-600 text-white flex justify-start !pt-0.5 !pl-1 !font-semibold";
       }
       if (penaltyData?.scored === true) {
-        return "!bg-gradient-to-br !from-green-400 !to-green-600 text-white";
+        return "!bg-gradient-to-br !from-green-400 !to-green-600 text-white flex justify-start !pt-0.5 !pl-1 !font-semibold";
       } else if (penaltyData?.scored === false) {
-        return "!bg-gradient-to-br !from-red-400 !to-red-600 !text-white";
+        return "!bg-gradient-to-br !from-red-400 !to-red-600 !text-white flex justify-start !pt-0.5 !pl-1 !font-semibold";
       }
     }
-    return "";
+    return "!font-semibold";
+  };
+
+  const getPositionClass = (direction) => {
+    switch (direction) {
+      case "left":
+        return "left-1";
+      case "center":
+        return "left-1/2 -translate-x-1/2";
+      case "right":
+        return "right-1";
+      default:
+        return "left-1";
+    }
   };
 
   const tileContent = ({ view, date }) => {
@@ -234,7 +241,7 @@ function CalendarComp() {
         <div className="pointer-events-none">
           {/* open dialog button - top right */}
           <div
-            className="pointer-events-auto cursor-pointer absolute top-1 right-1"
+            className="pointer-events-auto cursor-pointer absolute top-1 right-1.5"
             onClick={(e) => handleOpenDialog(e, date)}
           >
             <SquareArrowOutUpRight
@@ -246,22 +253,32 @@ function CalendarComp() {
             <>
               {/* Position indicator - bottom left (non-clickable) */}
               {penaltyData?.shotDirection && (
-                <div className="absolute top-0.5 left-0.5 ">
+                <div
+                  className={`absolute top-5 ${getPositionClass(
+                    penaltyData.shotDirection
+                  )}`}
+                >
                   <div>{getShotDirectionIcon(penaltyData, isSelected)}</div>
                 </div>
               )}
 
               {penaltyData?.gkDirection && (
-                <div className="absolute bottom-0 left-0.5">
+                <div
+                  className={`absolute top-9.5 ${getPositionClass(
+                    penaltyData.gkDirection
+                  )}`}
+                >
                   <div>
-                    {/* <Hand
-                      className={`h-3 w-3 ${
-                        selectedDate.toDateString() === date.toDateString()
-                          ? "text-white"
-                          : "text-black"
-                      }`}
-                    /> */}
-                    {getGkDirectionIcon(penaltyData, isSelected)}
+                    {penaltyData?.gkDirection === "left" &&
+                      getGkDirectionIcon(penaltyData, isSelected)}
+                  </div>
+                  <div>
+                    {penaltyData?.gkDirection === "center" &&
+                      getGkDirectionIcon(penaltyData, isSelected)}
+                  </div>
+                  <div>
+                    {penaltyData?.gkDirection === "right" &&
+                      getGkDirectionIcon(penaltyData, isSelected)}
                   </div>
                 </div>
               )}
