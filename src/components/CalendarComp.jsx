@@ -56,14 +56,13 @@ function CalendarComp() {
     }
   }, [userData?.$id]);
 
-  const getShotDirectionIcon = (penaltyData, isSelected) => {
-    let fillColor = "black";
-    if (isSelected) {
-      fillColor = "white";
-    }
-    if (penaltyData?.shotDirection) {
-      fillColor = "white";
-    }
+  const getShotDirectionIcon = (
+    shotDirection = "",
+    isSelected,
+    customColor
+  ) => {
+    let fillColor =
+      customColor || (shotDirection || isSelected ? "white" : "black");
 
     return (
       <svg
@@ -83,16 +82,11 @@ function CalendarComp() {
     );
   };
 
-  const getGkDirectionIcon = (penaltyData, isSelected) => {
-    let fillColor = "black";
-    if (isSelected) {
-      fillColor = "white";
-    }
-    if (penaltyData?.gkDirection) {
-      fillColor = "white";
-    }
+  const getGkDirectionIcon = (gkDirection = "", isSelected, customColor) => {
+    let fillColor =
+      customColor || (gkDirection || isSelected ? "white" : "black");
 
-    if (penaltyData?.gkDirection === "left") {
+    if (gkDirection === "left") {
       return (
         <svg
           fill={fillColor}
@@ -126,7 +120,7 @@ function CalendarComp() {
         </svg>
       );
     }
-    if (penaltyData?.gkDirection === "center") {
+    if (gkDirection === "center") {
       return (
         <svg
           width="15px"
@@ -151,7 +145,7 @@ function CalendarComp() {
         </svg>
       );
     }
-    if (penaltyData?.gkDirection === "right") {
+    if (gkDirection === "right") {
       return (
         <svg
           fill={fillColor}
@@ -196,13 +190,20 @@ function CalendarComp() {
       const penaltyData = penaltyDataMap[penaltyDataKey];
       const isSelected = selectedDate.toDateString() === date.toDateString();
 
-      if (isSelected) {
-        return "!bg-gradient-to-br !from-blue-400 !to-blue-600 text-white flex justify-start !pt-0.5 !pl-1 !font-semibold";
+      if (
+        (isSelected && penaltyData?.shotDirection) ||
+        (isSelected && penaltyData?.gkDirection)
+      ) {
+        return "!bg-gradient-to-br !from-blue-400 !to-blue-600 text-white flex justify-start !pt-0.5 !pl-0.5 md:!pl-1 !font-semibold";
       }
       if (penaltyData?.scored === true) {
         return "!bg-gradient-to-br !from-green-400 !to-green-600 text-white flex justify-start !pt-0.5 !pl-1 !font-semibold";
-      } else if (penaltyData?.scored === false) {
+      }
+      if (penaltyData?.scored === false) {
         return "!bg-gradient-to-br !from-red-400 !to-red-600 !text-white flex justify-start !pt-0.5 !pl-1 !font-semibold";
+      }
+      if (isSelected) {
+        return "!bg-gradient-to-br !from-blue-400 !to-blue-600 text-white !font-semibold";
       }
     }
     return "!font-semibold";
@@ -211,13 +212,13 @@ function CalendarComp() {
   const getPositionClass = (direction) => {
     switch (direction) {
       case "left":
-        return "left-1";
+        return "left-0.5 md:left-1";
       case "center":
         return "left-1/2 -translate-x-1/2";
       case "right":
-        return "right-1";
+        return "right-0.5 md:right-1";
       default:
-        return "left-1";
+        return "left-0.5 md:left-1";
     }
   };
 
@@ -241,7 +242,7 @@ function CalendarComp() {
         <div className="pointer-events-none">
           {/* open dialog button - top right */}
           <div
-            className="pointer-events-auto cursor-pointer absolute top-1 right-1.5"
+            className="pointer-events-auto cursor-pointer absolute top-1 right-1 md:right-1.5"
             onClick={(e) => handleOpenDialog(e, date)}
           >
             <SquareArrowOutUpRight
@@ -258,7 +259,12 @@ function CalendarComp() {
                     penaltyData.shotDirection
                   )}`}
                 >
-                  <div>{getShotDirectionIcon(penaltyData, isSelected)}</div>
+                  <div>
+                    {getShotDirectionIcon(
+                      penaltyData?.shotDirection,
+                      isSelected
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -268,18 +274,7 @@ function CalendarComp() {
                     penaltyData.gkDirection
                   )}`}
                 >
-                  <div>
-                    {penaltyData?.gkDirection === "left" &&
-                      getGkDirectionIcon(penaltyData, isSelected)}
-                  </div>
-                  <div>
-                    {penaltyData?.gkDirection === "center" &&
-                      getGkDirectionIcon(penaltyData, isSelected)}
-                  </div>
-                  <div>
-                    {penaltyData?.gkDirection === "right" &&
-                      getGkDirectionIcon(penaltyData, isSelected)}
-                  </div>
+                  {getGkDirectionIcon(penaltyData?.gkDirection, isSelected)}
                 </div>
               )}
             </>
@@ -308,7 +303,15 @@ function CalendarComp() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="dialog-content">
           <DialogHeader>
-            <DialogTitle>Penalty for {dialogDate?.toDateString()}</DialogTitle>
+            <DialogTitle>
+              Penalty for{" "}
+              {dialogDate?.toLocaleDateString(undefined, {
+                weekday: "short",
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </DialogTitle>
             <DialogDescription className="sr-only">
               Dialog for entering penalty data
             </DialogDescription>
@@ -327,32 +330,37 @@ function CalendarComp() {
         {/* Legend */}
         <div className="flex flex-wrap justify-center items-center gap-3 md:gap-4 text-sm text-gray-700">
           <div className="flex items-center gap-1">
-            <Check className="h-4 w-4 text-green-500" />
-            <span>Scored</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <X className="h-4 w-4 text-red-500" />
-            <span>Missed</span>
-          </div>
-          <div className="flex items-center gap-1">
             <SquareArrowOutUpRight className="h-4 w-4 text-blue-500" />
-            <span>Open / Edit</span>
+            <span>Edit or Add Entry</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="hidden md:inline">
-              {getShotDirectionIcon(false)}
-            </span>
-            <span className="font-semibold md:hidden">
-              Bottom Left Corner:{" "}
-            </span>
-            <span>Shot Direction</span>
+            <span className="">{getShotDirectionIcon("", false, "black")}</span>
+            <span>Shot Taken Direction</span>
           </div>
           <div className="flex items-center gap-1">
-            <Hand className="h-4 w-4 text-black hidden md:inline" />
-            <span className="font-semibold md:hidden">Top Left Corner: </span>
-            <span>Goalkeeper Jump Direction</span>
+            <span>{getGkDirectionIcon("left", false, "black")}</span>
+            <span>Goalkeeper Dived Left</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span>{getGkDirectionIcon("center", false, "black")}</span>
+            <span>Goalkeeper Stayed Center</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span>{getGkDirectionIcon("right", false, "black")}</span>
+            <span>Goalkeeper Dived Right</span>
           </div>
         </div>
+
+        <p className="text-xs text-gray-500 text-center leading-relaxed">
+          <strong>Note:</strong> The position of the icons inside each calendar
+          box indicates direction. When the <strong>shot</strong> icon appears
+          on the left side, it means the shot was taken to the left. Centered
+          icon means the shot was aimed at the center. Right-positioned icon
+          means the shot was taken to the right.
+          <br />
+          The same logic applies for the <strong>goalkeeper</strong> icon: its
+          position reflects the direction the goalkeeper jumped (or stayed).
+        </p>
 
         {/* Selected Date and Data */}
         <div className="p-4 rounded-md border border-gray-300 bg-gray-50 shadow-sm">
