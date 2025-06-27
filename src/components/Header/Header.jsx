@@ -59,7 +59,7 @@ function Header() {
               Daily Game Box Tracker
             </NavLink>
             <NavLink
-              to={"/"}
+              to={"/about"}
               className="text-gray-300 hover:text-white transition-colors"
             >
               About
@@ -112,7 +112,7 @@ function Header() {
               Game Box Tracker
             </NavLink>
             <NavLink
-              to={"/"}
+              to={"/about"}
               className="block px-3 py-2 text-gray-300 hover:text-white"
               onClick={() => setIsMenuOpen((prev) => !prev)}
             >

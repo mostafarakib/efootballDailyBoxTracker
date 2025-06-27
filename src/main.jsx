@@ -13,6 +13,7 @@ import { AuthLayout } from "./components";
 import NotFound from "./pages/NotFound";
 import GameBoxTrackingCalendar from "./pages/GameBoxTrackingCalendar";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import About from "./pages/About";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/about",
+        element: <About />,
       },
       // Catch-all route for 404 Not Found
       {
