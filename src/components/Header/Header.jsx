@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, UserInfoDropdown } from "..";
+import { Button, PredictionDropdown, UserInfoDropdown } from "..";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import authService from "../../appwrite/auth";
@@ -56,8 +56,13 @@ function Header() {
               to={"/gameBoxTracker"}
               className="text-gray-300 hover:text-white transition-colors"
             >
-              Daily Game Box Tracker
+              Game Box Tracker
             </NavLink>
+            {authStatus && (
+              <PredictionDropdown>
+                {/* inside will be modal contents */}
+              </PredictionDropdown>
+            )}
             <NavLink
               to={"/about"}
               className="text-gray-300 hover:text-white transition-colors"
@@ -88,7 +93,7 @@ function Header() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-white"
+            className="md:hidden text-white cursor-pointer"
             onClick={() => setIsMenuOpen((prev) => !prev)}
           >
             {isMenuOpen ? (
@@ -104,6 +109,13 @@ function Header() {
       {isMenuOpen && (
         <div className="md:hidden bg-slate-900/95 backdrop-blur-md">
           <div className="px-2 pt-2 pb-3 space-y-1">
+            <div className="px-3 py-2">
+              {authStatus && (
+                <PredictionDropdown>
+                  {/* inside will be modal contents */}
+                </PredictionDropdown>
+              )}
+            </div>
             <NavLink
               to={"/gameBoxTracker"}
               className="block px-3 py-2 text-gray-300 hover:text-white"

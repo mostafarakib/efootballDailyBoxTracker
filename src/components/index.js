@@ -16,6 +16,7 @@ import AuthLayout from "./AuthLayout";
 import Loader from "./UI/Loader";
 import UserInfoDropdown from "./UserInfoDropdown";
 import { Toaster } from "./UI/sonner";
+import PredictionDropdown from "./PredictionDropdown";
 
 export {
   Input,
@@ -34,4 +35,5 @@ export {
   Loader,
   UserInfoDropdown,
   Toaster,
+  PredictionDropdown,
 };
