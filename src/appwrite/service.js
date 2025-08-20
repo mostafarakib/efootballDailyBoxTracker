@@ -144,7 +144,7 @@ export class DataBaseService {
       if (existingData) {
         return await this.databases.deleteDocument(
           config.appwriteDatabaseId,
-          config.appwritePenaltyCollectionId,
+          config.appwriteCollectionId,
           existingData.$id
         );
       }
