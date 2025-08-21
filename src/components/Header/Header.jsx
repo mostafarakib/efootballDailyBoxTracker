@@ -58,11 +58,7 @@ function Header() {
             >
               Game Box Tracker
             </NavLink>
-            {authStatus && (
-              <PredictionDropdown>
-                {/* inside will be modal contents */}
-              </PredictionDropdown>
-            )}
+            {authStatus && <PredictionDropdown></PredictionDropdown>}
             <NavLink
               to={"/about"}
               className="text-gray-300 hover:text-white transition-colors"

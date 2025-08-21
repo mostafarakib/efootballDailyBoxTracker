@@ -3,7 +3,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import authService from "./appwrite/auth";
 import { login, logout, setLoading } from "./store/authSlice";
 import { Loader, Toaster } from "./components";
@@ -12,7 +12,6 @@ import predictionService from "./appwrite/predictionService";
 function App() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth.loading);
-  const startedPredictionRef = useRef(false);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -27,7 +26,7 @@ function App() {
           // Non-blocking: we don't wait for it to finish for rendering.
           predictionService
             .computeAndSavePredictionForToday(userData.$id)
-            .then(({ computed, doc }) => {
+            .then(({ doc }) => {
               console.log("Prediction computed:", doc);
             })
             .catch((err) => {

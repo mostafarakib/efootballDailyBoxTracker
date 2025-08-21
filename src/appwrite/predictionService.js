@@ -348,8 +348,6 @@ export class PredictionService {
     }
   }
 
-  // Core: compute prediction for a specific targetDate (YYYY-MM-DD)
-  // IMPORTANT: this excludes entries that match the targetDate (edge case #3)
   async computeAndSavePredictionForDate(userId, targetDate, options = {}) {
     try {
       // fetch all penalty data for user
